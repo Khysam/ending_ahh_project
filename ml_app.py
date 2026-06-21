@@ -41,10 +41,14 @@ def show_prediction_page():
         # load model & preprocessor
         preprocessor = joblib.load(PREPROCESSOR_PATH)
         model = joblib.load(MODEL_PATH)
-    except ModuleNotFoundError as e:
-        st.error("❌ Model tidak bisa dibuka. Pastikan library yang digunakan saat training ada di requirements.txt.")
-        st.exception(e)
-        st.stop()
+   except Exception as e:
+    st.error("❌ Model tidak bisa dibuka.")
+    st.exception(e)
+
+    st.write("Error Type:", type(e))
+    st.write("Error Message:", str(e))
+
+    st.stop()
 
     # judul
     st.title("🤖 Laptop Price Prediction")
