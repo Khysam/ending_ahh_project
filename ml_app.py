@@ -4,106 +4,348 @@ import numpy as np
 import joblib
 import os
 
+# ==================================================
+# CONFIG
+# ==================================================
+
+st.set_page_config(
+    page_title="ML Prediction App",
+    page_icon="🤖",
+    layout="wide"
+)
+# =====================================
+# SIDEBAR MENU
+# =====================================
+
+st.sidebar.title("💻 Navigation")
+
+menu = st.sidebar.radio(
+    "Choose Menu",
+    [
+        "Home",
+        "Prediction"
+    ]
+)
+# =====================================
+# HOME PAGE
+# =====================================
+
+if menu == "Home":
+
+    st.title("💻 Laptop Price Prediction System")
+
+    st.markdown("---")
+
+    st.write("""
+    ### Welcome
+
+    This application predicts laptop prices using Machine Learning Regression.
+
+    ### Features
+    - Laptop Price Prediction
+    - Multiple Regression Models
+    - Interactive Dashboard
+    - Streamlit Deployment
+
+    ### Dataset Features
+    - Company
+    - TypeName
+    - Inches
+    - RAM
+    - Weight
+    - CPU Brand
+    - GPU Brand
+    - SSD
+    - HDD
+    - PPI
+    - Touchscreen
+    - IPS Display
+    - Operating System
+    """)
+
+# =====================================
+# PREDICTION PAGE
+# =====================================
+
+elif menu == "Prediction":
+    show_prediction_page()
 
 # ==================================================
-# PATH FILE MODEL
+# FILE PATH
 # ==================================================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PREPROCESSOR_PATH = os.path.join(BASE_DIR, "preprocessor.pkl")
-MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
+
+PREPROCESSOR_PATH = "preprocessor.pkl"
+MODEL_PATH = "model.pkl"
 
 # ==================================================
-# HALAMAN PREDIKSI
+# CHECK FILE
 # ==================================================
+
+missing_files = []
+
+if not os.path.exists(PREPROCESSOR_PATH):
+    missing_files.append(PREPROCESSOR_PATH)
+
+if not os.path.exists(MODEL_PATH):
+    missing_files.append(MODEL_PATH)
+
+if len(missing_files) > 0:
+
+    st.error(
+        f"""
+        Missing Files:
+        
+        {', '.join(missing_files)}
+        """
+    )
+
+    st.stop()
+
+# ==================================================
+# LOAD OBJECTS
+# ==================================================
+
+@st.cache_resource
+def load_objects():
+
+    preprocessor = joblib.load(
+        PREPROCESSOR_PATH
+    )
+
+    model = joblib.load(
+        MODEL_PATH
+    )
+
+    return preprocessor, model
+
+preprocessor, model = load_objects()
+
 def show_prediction_page():
 
-    import numpy as np
-    import pandas as pd
-    import sklearn
-    import joblib
-
-    st.write("NumPy:", np.__version__)
-    st.write("Pandas:", pd.__version__)
-    st.write("Scikit-Learn:", sklearn.__version__)
-    st.write("Joblib:", joblib.__version__)
-    # cek file model
     missing_files = []
+
     if not os.path.exists(PREPROCESSOR_PATH):
-        missing_files.append("preprocessor.pkl")
+        missing_files.append(PREPROCESSOR_PATH)
+
     if not os.path.exists(MODEL_PATH):
-        missing_files.append("model.pkl")
+        missing_files.append(MODEL_PATH)
 
     if len(missing_files) > 0:
-        st.error(f"❌ Missing files: {', '.join(missing_files)}")
+
+        st.error(
+            f"Missing Files: {', '.join(missing_files)}"
+        )
+
         st.stop()
 
+    preprocessor, model = load_objects()
+
+# ==================================================
+# TITLE
+# ==================================================
+
+st.title("🤖 Laptop Price Prediction")
+
+st.markdown("---")
+
+# ==================================================
+# INPUT FORM
+# ==================================================
+
+with st.form("prediction_form"):
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        company = st.selectbox(
+            "Company",
+            [
+                "Apple","Dell","HP","Lenovo",
+                "Asus","Acer","MSI","Toshiba",
+                "Samsung","Huawei","Xiaomi",
+                "Microsoft","Razer","LG","Chuwi"
+            ]
+        )
+
+        typename = st.selectbox(
+            "TypeName",
+            [
+                "Notebook",
+                "Ultrabook",
+                "Gaming",
+                "2 in 1 Convertible",
+                "Workstation",
+                "Netbook"
+            ]
+        )
+
+        inches = st.number_input(
+            "Screen Size",
+            min_value=10.0,
+            max_value=20.0,
+            value=15.6
+        )
+
+        ram = st.selectbox(
+            "RAM (GB)",
+            [2,4,8,16,32,64]
+        )
+
+        weight = st.number_input(
+            "Weight (kg)",
+            min_value=0.5,
+            max_value=5.0,
+            value=2.0
+        )
+
+        cpu_brand = st.selectbox(
+            "CPU Brand",
+            [
+                "Intel Core i3",
+                "Intel Core i5",
+                "Intel Core i7",
+                "Intel Core i9",
+                "AMD Ryzen 3",
+                "AMD Ryzen 5",
+                "AMD Ryzen 7",
+                "AMD Ryzen 9"
+            ]
+        )
+
+    with col2:
+
+        gpu_brand = st.selectbox(
+            "GPU Brand",
+            [
+                "Intel",
+                "AMD",
+                "Nvidia"
+            ]
+        )
+
+        ssd = st.selectbox(
+            "SSD (GB)",
+            [0,128,256,512,1024,2048]
+        )
+
+        hdd = st.selectbox(
+            "HDD (GB)",
+            [0,500,1000,2000]
+        )
+
+        ppi = st.number_input(
+            "PPI",
+            min_value=50,
+            max_value=500,
+            value=141
+        )
+
+        touchscreen = st.selectbox(
+            "Touchscreen",
+            [0,1]
+        )
+
+        ips = st.selectbox(
+            "IPS Display",
+            [0,1]
+        )
+
+        os_name = st.selectbox(
+            "Operating System",
+            [
+                "Windows",
+                "Mac",
+                "Linux",
+                "Other"
+            ]
+        )
+
+    submit = st.form_submit_button(
+        "🚀 Predict Price"
+    )
+
+# ==================================================
+# PREDICTION
+# ==================================================
+
+if submit:
+
     try:
-        # load model & preprocessor
-        preprocessor = joblib.load(PREPROCESSOR_PATH)
-        model = joblib.load(MODEL_PATH)
-   
-    # form input
-    with st.form("prediction_form"):
+
+        input_df = pd.DataFrame({
+
+            'Company':[company],
+            'TypeName':[typename],
+            'Inches':[inches],
+            'Ram':[ram],
+            'Weight':[weight],
+            'Cpu Brand':[cpu_brand],
+            'GPU Brand':[gpu_brand],
+            'SSD':[ssd],
+            'HDD':[hdd],
+            'ppi':[ppi],
+            'Touchscreen':[touchscreen],
+            'IPS':[ips],
+            'OS':[os_name]
+
+        })
+
+        X_processed = preprocessor.transform(
+            input_df
+        )
+
+        prediction = model.predict(
+            X_processed
+        )[0]
+
+        prediction = np.expm1(
+            prediction
+        )
+
+        st.success(
+            "Prediction Completed Successfully!"
+        )
+
+        euro_price = prediction
+
+        idr_price = prediction * 19000
+
         col1, col2 = st.columns(2)
 
         with col1:
-            company = st.selectbox("Company", ["Apple","Dell","HP","Lenovo","Asus","Acer","MSI","Toshiba","Samsung","Huawei","Xiaomi","Microsoft","Razer","LG","Chuwi"])
-            typename = st.selectbox("TypeName", ["Notebook","Ultrabook","Gaming","2 in 1 Convertible","Workstation","Netbook"])
-            inches = st.number_input("Screen Size", min_value=10.0, max_value=20.0, value=15.6)
-            ram = st.selectbox("RAM (GB)", [2,4,8,16,32,64])
-            weight = st.number_input("Weight (kg)", min_value=0.5, max_value=5.0, value=2.0)
-            cpu_brand = st.selectbox("CPU Brand", ["Intel Core i3","Intel Core i5","Intel Core i7","Intel Core i9","AMD Ryzen 3","AMD Ryzen 5","AMD Ryzen 7","AMD Ryzen 9"])
+
+            st.metric(
+                "💶 Price (Euro)",
+                f"€ {euro_price:,.2f}"
+            )
 
         with col2:
-            gpu_brand = st.selectbox("GPU Brand", ["Intel","AMD","Nvidia"])
-            ssd = st.selectbox("SSD (GB)", [0,128,256,512,1024,2048])
-            hdd = st.selectbox("HDD (GB)", [0,500,1000,2000])
-            ppi = st.number_input("PPI", min_value=50, max_value=500, value=141)
-            touchscreen = st.selectbox("Touchscreen", [0,1])
-            ips = st.selectbox("IPS Display", [0,1])
-            os_name = st.selectbox("Operating System", ["Windows","Mac","Linux","Other"])
 
-        submit = st.form_submit_button("🚀 Predict Price")
+            st.metric(
+                "🇮🇩 Price (IDR)",
+                f"Rp {idr_price:,.0f}"
+            )
 
-    # prediksi
-    if submit:
-        try:
-            input_df = pd.DataFrame({
-                'Company':[company],
-                'TypeName':[typename],
-                'Inches':[inches],
-                'Ram':[ram],
-                'Weight':[weight],
-                'Cpu Brand':[cpu_brand],
-                'GPU Brand':[gpu_brand],
-                'SSD':[ssd],
-                'HDD':[hdd],
-                'ppi':[ppi],
-                'Touchscreen':[touchscreen],
-                'IPS':[ips],
-                'OS':[os_name]
-            })
+        st.markdown("---")
 
-            X_processed = preprocessor.transform(input_df)
-            prediction = model.predict(X_processed)[0]
-            prediction = np.expm1(prediction)
+        st.subheader("Input Specification")
 
-            euro_price = prediction
-            idr_price = prediction * 19000
+        st.dataframe(
+            input_df,
+            use_container_width=True
+        )
 
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("💶 Price (Euro)", f"€ {euro_price:,.2f}")
-            with col2:
-                st.metric("🇮🇩 Price (IDR)", f"Rp {idr_price:,.0f}")
+        st.subheader("Model Information")
 
-            st.markdown("---")
-            st.subheader("Input Specification")
-            st.dataframe(input_df, use_container_width=True)
+        st.write(
+            f"Model : {type(model).__name__}"
+        )
 
-            st.subheader("Model Information")
-            st.write(f"Model : {type(model).__name__}")
+    except Exception as e:
 
-        except Exception as e:
-            st.error("Prediction Failed")
-            st.exception(e)
+        st.error(
+            "Prediction Failed"
+        )
+
+        st.exception(e)
