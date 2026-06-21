@@ -4,7 +4,6 @@ import numpy as np
 import joblib
 import os
 
-# Path aman
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PREPROCESSOR_PATH = os.path.join(BASE_DIR, "preprocessor.pkl")
 MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
@@ -16,47 +15,31 @@ def load_objects():
     return preprocessor, model
 
 def show_prediction_page():
-    # cek file
-    missing_files = []
-    if not os.path.exists(PREPROCESSOR_PATH):
-        missing_files.append(PREPROCESSOR_PATH)
-    if not os.path.exists(MODEL_PATH):
-        missing_files.append(MODEL_PATH)
-
-    if len(missing_files) > 0:
-        st.error(f"Missing Files: {', '.join(missing_files)}")
+    if not os.path.exists(PREPROCESSOR_PATH) or not os.path.exists(MODEL_PATH):
+        st.error("❌ Missing model files. Upload preprocessor.pkl and model.pkl")
         st.stop()
 
     preprocessor, model = load_objects()
 
-    # judul
     st.title("🤖 Laptop Price Prediction")
     st.markdown("---")
 
-    # form input
     with st.form("prediction_form"):
-        col1, col2 = st.columns(2)
-
-        with col1:
-            company = st.selectbox("Company", ["Apple","Dell","HP","Lenovo","Asus","Acer","MSI","Toshiba","Samsung","Huawei","Xiaomi","Microsoft","Razer","LG","Chuwi"])
-            typename = st.selectbox("TypeName", ["Notebook","Ultrabook","Gaming","2 in 1 Convertible","Workstation","Netbook"])
-            inches = st.number_input("Screen Size", min_value=10.0, max_value=20.0, value=15.6)
-            ram = st.selectbox("RAM (GB)", [2,4,8,16,32,64])
-            weight = st.number_input("Weight (kg)", min_value=0.5, max_value=5.0, value=2.0)
-            cpu_brand = st.selectbox("CPU Brand", ["Intel Core i3","Intel Core i5","Intel Core i7","Intel Core i9","AMD Ryzen 3","AMD Ryzen 5","AMD Ryzen 7","AMD Ryzen 9"])
-
-        with col2:
-            gpu_brand = st.selectbox("GPU Brand", ["Intel","AMD","Nvidia"])
-            ssd = st.selectbox("SSD (GB)", [0,128,256,512,1024,2048])
-            hdd = st.selectbox("HDD (GB)", [0,500,1000,2000])
-            ppi = st.number_input("PPI", min_value=50, max_value=500, value=141)
-            touchscreen = st.selectbox("Touchscreen", [0,1])
-            ips = st.selectbox("IPS Display", [0,1])
-            os_name = st.selectbox("Operating System", ["Windows","Mac","Linux","Other"])
-
+        company = st.selectbox("Company", ["Apple","Dell","HP","Lenovo","Asus","Acer","MSI","Toshiba","Samsung","Huawei","Xiaomi","Microsoft","Razer","LG","Chuwi"])
+        typename = st.selectbox("TypeName", ["Notebook","Ultrabook","Gaming","2 in 1 Convertible","Workstation","Netbook"])
+        inches = st.number_input("Screen Size", min_value=10.0, max_value=20.0, value=15.6)
+        ram = st.selectbox("RAM (GB)", [2,4,8,16,32,64])
+        weight = st.number_input("Weight (kg)", min_value=0.5, max_value=5.0, value=2.0)
+        cpu_brand = st.selectbox("CPU Brand", ["Intel Core i3","Intel Core i5","Intel Core i7","Intel Core i9","AMD Ryzen 3","AMD Ryzen 5","AMD Ryzen 7","AMD Ryzen 9"])
+        gpu_brand = st.selectbox("GPU Brand", ["Intel","AMD","Nvidia"])
+        ssd = st.selectbox("SSD (GB)", [0,128,256,512,1024,2048])
+        hdd = st.selectbox("HDD (GB)", [0,500,1000,2000])
+        ppi = st.number_input("PPI", min_value=50, max_value=500, value=141)
+        touchscreen = st.selectbox("Touchscreen", [0,1])
+        ips = st.selectbox("IPS Display", [0,1])
+        os_name = st.selectbox("Operating System", ["Windows","Mac","Linux","Other"])
         submit = st.form_submit_button("🚀 Predict Price")
 
-    # prediction
     if submit:
         try:
             input_df = pd.DataFrame({
