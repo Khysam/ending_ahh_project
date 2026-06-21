@@ -120,6 +120,26 @@ def load_objects():
 
 preprocessor, model = load_objects()
 
+def show_prediction_page():
+
+    missing_files = []
+
+    if not os.path.exists(PREPROCESSOR_PATH):
+        missing_files.append(PREPROCESSOR_PATH)
+
+    if not os.path.exists(MODEL_PATH):
+        missing_files.append(MODEL_PATH)
+
+    if len(missing_files) > 0:
+
+        st.error(
+            f"Missing Files: {', '.join(missing_files)}"
+        )
+
+        st.stop()
+
+    preprocessor, model = load_objects()
+
 # ==================================================
 # TITLE
 # ==================================================
