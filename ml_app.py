@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-
+from ml_app import show_prediction_page
 # ==================================================
 # CONFIG
 # ==================================================
@@ -13,7 +13,63 @@ st.set_page_config(
     page_icon="🤖",
     layout="wide"
 )
+# =====================================
+# SIDEBAR MENU
+# =====================================
 
+st.sidebar.title("💻 Navigation")
+
+menu = st.sidebar.radio(
+    "Choose Menu",
+    [
+        "Home",
+        "Prediction"
+    ]
+)
+
+# =====================================
+# HOME PAGE
+# =====================================
+
+if menu == "Home":
+
+    st.title("💻 Laptop Price Prediction System")
+
+    st.markdown("---")
+
+    st.write("""
+    ### Welcome
+
+    This application predicts laptop prices using Machine Learning Regression.
+
+    ### Features
+    - Laptop Price Prediction
+    - Multiple Regression Models
+    - Interactive Dashboard
+    - Streamlit Deployment
+
+    ### Dataset Features
+    - Company
+    - TypeName
+    - Inches
+    - RAM
+    - Weight
+    - CPU Brand
+    - GPU Brand
+    - SSD
+    - HDD
+    - PPI
+    - Touchscreen
+    - IPS Display
+    - Operating System
+    """)
+
+# =====================================
+# PREDICTION PAGE
+# =====================================
+
+elif menu == "Prediction":
+    show_prediction_page()
 # ==================================================
 # FILE PATH
 # ==================================================
