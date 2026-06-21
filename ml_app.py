@@ -43,6 +43,8 @@ def show_prediction_page():
         st.write("Expected columns:")
         st.write(list(preprocessor.feature_names_in_))
         model = joblib.load(MODEL_PATH)
+        st.write("Model Type:", type(model))
+        st.write(model)
     except Exception as e:
         st.error("❌ Model tidak bisa dibuka. Kemungkinan library yang digunakan saat training belum ada di environment.")
         st.exception(e)
