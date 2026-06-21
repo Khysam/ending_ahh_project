@@ -43,6 +43,9 @@ This application predicts laptop prices using Machine Learning Regression.
 - Operating System
 """)
 
+st.sidebar.title("Navigation")
+st.sidebar.success("Select a page above.")
+
 st.info(
     "Navigate to 'ML Prediction App' from the sidebar to start predicting."
 )
