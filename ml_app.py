@@ -42,15 +42,6 @@ def show_prediction_page():
         preprocessor = joblib.load(PREPROCESSOR_PATH)
         model = joblib.load(MODEL_PATH)
    
-    except Exception as e:
-    st.error("❌ Model tidak bisa dibuka.")
-    st.exception(e)
-
-    st.write("Error Type:", type(e))
-    st.write("Error Message:", str(e))
-
-    st.stop()
-
     # form input
     with st.form("prediction_form"):
         col1, col2 = st.columns(2)
