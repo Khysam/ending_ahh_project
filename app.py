@@ -1,5 +1,5 @@
 import streamlit as st
-from ml_app import show_prediction_page
+from ml_app.py import show_prediction_page
 
 st.set_page_config(
     page_title="Laptop Price Prediction",
