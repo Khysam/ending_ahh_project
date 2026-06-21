@@ -57,10 +57,3 @@ if menu == "Home":
     - IPS Display
     - Operating System
     """)
-
-# =====================================
-# PREDICTION PAGE
-# =====================================
-
-elif menu == "Prediction":
-    show_prediction_page()
