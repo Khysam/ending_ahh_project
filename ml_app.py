@@ -39,6 +39,8 @@ def show_prediction_page():
 
     try:
         # load model & preprocessor
+        st.write("Expected columns:")
+        st.write(list(preprocessor.feature_names_in_))
         preprocessor = joblib.load(PREPROCESSOR_PATH)
         model = joblib.load(MODEL_PATH)
     except Exception as e:
