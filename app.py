@@ -7,33 +7,16 @@ st.set_page_config(
     layout="wide"
 )
 
-# =====================================
-# SIDEBAR MENU
-# =====================================
-
+# Sidebar
 st.sidebar.title("💻 Navigation")
+menu = st.sidebar.radio("Choose Menu", ["Home", "Prediction"])
 
-menu = st.sidebar.radio(
-    "Choose Menu",
-    [
-        "Home",
-        "Prediction"
-    ]
-)
-
-# =====================================
-# HOME PAGE
-# =====================================
-
+# Home Page
 if menu == "Home":
-
     st.title("💻 Laptop Price Prediction System")
-
     st.markdown("---")
-
     st.write("""
     ### Welcome
-
     This application predicts laptop prices using Machine Learning Regression.
 
     ### Features
@@ -41,19 +24,8 @@ if menu == "Home":
     - Multiple Regression Models
     - Interactive Dashboard
     - Streamlit Deployment
-
-    ### Dataset Features
-    - Company
-    - TypeName
-    - Inches
-    - RAM
-    - Weight
-    - CPU Brand
-    - GPU Brand
-    - SSD
-    - HDD
-    - PPI
-    - Touchscreen
-    - IPS Display
-    - Operating System
     """)
+
+# Prediction Page
+elif menu == "Prediction":
+    show_prediction_page()
