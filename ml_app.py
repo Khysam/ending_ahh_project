@@ -16,16 +16,6 @@ MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
 # HALAMAN PREDIKSI
 # ==================================================
 def show_prediction_page():
-    
-    import numpy as np
-    import pandas as pd
-    import sklearn
-    import joblib
-
-    st.write("NumPy:", np.__version__)
-    st.write("Pandas:", pd.__version__)
-    st.write("Scikit-Learn:", sklearn.__version__)
-    st.write("Joblib:", joblib.__version__)
     # cek file model
     missing_files = []
     if not os.path.exists(PREPROCESSOR_PATH):
