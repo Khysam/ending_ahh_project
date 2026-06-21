@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-from ml_app import show_prediction_page
+
 # ==================================================
 # CONFIG
 # ==================================================
