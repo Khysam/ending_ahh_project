@@ -16,13 +16,7 @@ st.set_page_config(
 # ==========================
 model = joblib.load("model.pkl")
 
-# ==========================
-# SIDEBAR MENU
-# ==========================
-menu = st.sidebar.radio(
-    "📌 Navigation",
-    ["Home", "ML Prediction App"]
-)
+
 
 # ==========================
 # HOME PAGE
