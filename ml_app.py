@@ -79,20 +79,25 @@ def show_prediction_page():
     if submit:
         try:
             input_df = pd.DataFrame({
-                'Company':[company],
-                'TypeName':[typename],
-                'Inches':[inches],
-                'Ram':[ram],
-                'Weight':[weight],
-                'Cpu Brand':[cpu_brand],
-                'GPU Brand':[gpu_brand],
-                'SSD':[ssd],
-                'HDD':[hdd],
-                'ppi':[ppi],
-                'Touchscreen':[touchscreen],
-                'IPS':[ips],
-                'OS':[os_name]
-            })
+            'Company':[company],
+            'TypeName':[typename],
+            'Inches':[inches],
+            'Ram':[ram],
+            'Weight':[weight],
+            'CPU_Brand':[cpu_brand],
+            'GPU_Brand':[gpu_brand],
+            'SSD':[ssd],
+            'HDD':[hdd],
+            'PPI':[ppi],
+            'Touchscreen':[touchscreen],
+            'IPS':[ips],
+            'OpSys':[os_name],
+    
+            # sementara isi dummy
+            'X_res':[1920],
+            'Y_res':[1080],
+            'laptop_ID':[0]
+})
 
             X_processed = preprocessor.transform(input_df)
             prediction = model.predict(X_processed)[0]
