@@ -1,66 +1,48 @@
 import streamlit as st
-import pandas as pd
-import joblib
 
-# ==========================
-# CONFIG
-# ==========================
 st.set_page_config(
     page_title="Laptop Price Prediction",
     page_icon="💻",
     layout="wide"
 )
 
-# ==========================
-# LOAD MODEL
-# ==========================
-model = joblib.load("model.pkl")
+st.title("💻 Laptop Price Prediction System")
 
+st.markdown("---")
 
+st.write("""
+### Welcome
 
-# ==========================
-# HOME PAGE
-# ==========================
-if menu == "Home":
+This application predicts laptop prices using Machine Learning Regression.
 
-    st.title("💻 Laptop Price Prediction System")
+### Features
+- Laptop Price Prediction
+- Multiple Regression Models
+- Automated Preprocessing
+- Interactive User Interface
 
-    st.markdown("---")
+### Instructions
+1. Open **ML Prediction App** from the sidebar.
+2. Enter laptop specifications.
+3. Click **Predict Price**.
+4. View prediction results.
 
-    st.write("""
-    ### Welcome
+### Dataset Features
+- Company
+- TypeName
+- Inches
+- RAM
+- Weight
+- CPU Brand
+- GPU Brand
+- SSD
+- HDD
+- PPI
+- Touchscreen
+- IPS
+- Operating System
+""")
 
-    This application predicts laptop prices using Machine Learning Regression.
-
-    ### Features
-    - Laptop Price Prediction
-    - Automated Preprocessing
-    - Machine Learning Model
-    - Interactive User Interface
-
-    ### Instructions
-    1. Open **ML Prediction App** from the sidebar.
-    2. Enter laptop specifications.
-    3. Click **Predict Price**.
-    4. View prediction results.
-
-    ### Dataset Features
-    - Company
-    - TypeName
-    - Inches
-    - RAM
-    - Weight
-    - CPU Brand
-    - GPU Brand
-    - SSD
-    - HDD
-    - PPI
-    - Touchscreen
-    - IPS
-    - Operating System
-    """)
-
-    st.info(
-        "Navigate to 'ML Prediction App' from the sidebar to start predicting."
-    )
-
+st.info(
+    "Navigate to 'ML Prediction App' from the sidebar to start predicting."
+)
