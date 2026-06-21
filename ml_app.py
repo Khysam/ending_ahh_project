@@ -39,9 +39,9 @@ def show_prediction_page():
 
     try:
         # load model & preprocessor
+        preprocessor = joblib.load(PREPROCESSOR_PATH)
         st.write("Expected columns:")
         st.write(list(preprocessor.feature_names_in_))
-        preprocessor = joblib.load(PREPROCESSOR_PATH)
         model = joblib.load(MODEL_PATH)
     except Exception as e:
         st.error("❌ Model tidak bisa dibuka. Kemungkinan library yang digunakan saat training belum ada di environment.")
