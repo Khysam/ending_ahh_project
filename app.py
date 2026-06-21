@@ -1,4 +1,5 @@
 import streamlit as st
+from ml_app import show_prediction_page
 
 st.set_page_config(
     page_title="Laptop Price Prediction",
@@ -6,43 +7,60 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("💻 Laptop Price Prediction System")
+# =====================================
+# SIDEBAR MENU
+# =====================================
 
-st.markdown("---")
+st.sidebar.title("💻 Navigation")
 
-st.write("""
-### Welcome
-
-This application predicts laptop prices using Machine Learning Regression.
-
-### Features
-- Laptop Price Prediction
-- Multiple Regression Models
-- Automated Preprocessing
-- Interactive User Interface
-
-### Instructions
-1. Open **ML Prediction App** from the sidebar.
-2. Enter laptop specifications.
-3. Click **Predict Price**.
-4. View prediction results.
-
-### Dataset Features
-- Company
-- TypeName
-- Inches
-- RAM
-- Weight
-- CPU Brand
-- GPU Brand
-- SSD
-- HDD
-- PPI
-- Touchscreen
-- IPS
-- Operating System
-""")
-
-st.info(
-    "Navigate to 'ML Prediction App' from the sidebar to start predicting."
+menu = st.sidebar.radio(
+    "Choose Menu",
+    [
+        "Home",
+        "Prediction"
+    ]
 )
+
+# =====================================
+# HOME PAGE
+# =====================================
+
+if menu == "Home":
+
+    st.title("💻 Laptop Price Prediction System")
+
+    st.markdown("---")
+
+    st.write("""
+    ### Welcome
+
+    This application predicts laptop prices using Machine Learning Regression.
+
+    ### Features
+    - Laptop Price Prediction
+    - Multiple Regression Models
+    - Interactive Dashboard
+    - Streamlit Deployment
+
+    ### Dataset Features
+    - Company
+    - TypeName
+    - Inches
+    - RAM
+    - Weight
+    - CPU Brand
+    - GPU Brand
+    - SSD
+    - HDD
+    - PPI
+    - Touchscreen
+    - IPS Display
+    - Operating System
+    """)
+
+# =====================================
+# PREDICTION PAGE
+# =====================================
+
+elif menu == "Prediction":
+    show_prediction_page()
